@@ -10,7 +10,7 @@
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
-    "firebase": "^9.22.1",
+    "firebase": "^11.8.1",
     "framer-motion": "^10.12.16",
     "i18next": "^22.5.0",
     "lucide-react": "^0.233.0",
@@ -20,7 +20,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^12.3.1",
     "react-router-dom": "^6.11.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^3.0.1",
     "tailwindcss": "^3.3.2",
     "web-vitals": "^2.1.4"
   },
@@ -28,7 +28,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:win": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
+    "build:win": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts build"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +49,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/react-i18next": "^8.0.0",
+    "@types/react-router-dom": "^5.3.3"
   }
 }

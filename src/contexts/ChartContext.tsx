@@ -86,7 +86,7 @@ interface ChartContextType {
   generateAnalysis: () => void;
 }
 
-const ChartContext = createContext<ChartContextType | undefined>(undefined);
+const ChartContext = createContext(undefined as unknown as ChartContextType);
 
 export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentUser, userProfile } = useUser();
