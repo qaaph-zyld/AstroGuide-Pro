@@ -1,0 +1,14 @@
+[SYSTEM]
+# Production Changelog System Configuration
+version = 1.0.0
+debug_mode = false
+environment = production
+
+[WORKSPACE]
+# Workspace scanning configuration
+root_path = .
+cache_directory = .workspace_cache
+max_file_size = 104857600
+scan_timeout = 30
+
+# Ignore patterns (

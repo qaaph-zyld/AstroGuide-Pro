@@ -2,4 +2,30 @@
 trigger: always_on
 ---
 
-create a changelog file in the root folder (named changelog.md) which you update at the start of each answer. this will make sure you have continuation of development process throught the thread, without repeating every step you already noted, since you will check each step and only add new ones
+# CHANGELOG SYSTEM
+
+At the start of each answer, I will update the changelog.md file in the root folder. This ensures continuity of the development process throughout the thread, without repeating steps already noted.
+
+## Changelog Format
+
+### Answer #XXX - [Action Summary]
+**Timestamp:** YYYY-MM-DD HH:MM
+**Action Type:** [Architecture|Implementation|Modification|Documentation]
+**Previous State:** [Brief state description]
+**Current State:** [Brief state description]
+
+#### Changes Made:
+- [Specific change 1]
+- [Specific change 2]
+
+#### Files Affected:
+- **NEW:** [filename] - [purpose]
+- **MODIFIED:** [filename] - [changes made]
+- **REMOVED:** [filename] - [reason]
+
+#### Technical Decisions:
+- [Decision rationale]
+
+#### Next Actions Required:
+- [Action item 1]
+- [Action item 2]
