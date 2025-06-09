@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
 
 // Import pages
 import LandingPage from './pages/LandingPage';
@@ -14,6 +15,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import NotFound from './pages/NotFound';
 import TestPage from './pages/TestPage';
+import BirthChartPage from './pages/BirthChartPage';
 
 // Import test navigation
 import TestNavigation from './components/TestNavigation';
@@ -51,10 +53,11 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Router>
-      <div className="app-container">
-        {showTestNav && <TestNavigation />}
-        <Routes>
+    <AuthProvider>
+      <Router>
+        <div className="app-container">
+          {showTestNav && <TestNavigation />}
+          <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -66,10 +69,13 @@ const App: React.FC = () => {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/test" element={<TestPage />} />
+          <Route path="/create-chart" element={<BirthChartPage />} />
+          <Route path="/chart/:chartId" element={<BirthChartPage />} />
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </Router>
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 };
 
