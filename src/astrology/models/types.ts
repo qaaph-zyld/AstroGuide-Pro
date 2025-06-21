@@ -13,8 +13,11 @@ export enum CelestialBody {
   MARS = 'Mars',
   JUPITER = 'Jupiter',
   SATURN = 'Saturn',
+  URANUS = 'Uranus',
+  NEPTUNE = 'Neptune',
+  PLUTO = 'Pluto',
   RAHU = 'Rahu', // North Node
-  KETU = 'Ketu', // South Node
+  KETU = 'Ketu' // South Node
 }
 
 /**
@@ -93,16 +96,15 @@ export enum Aspect {
   CONJUNCTION = 'Conjunction', // 0°
   OPPOSITION = 'Opposition',   // 180°
   TRINE = 'Trine',             // 120°
-  SQUARE = 'Square',           // 90°
-  SEXTILE = 'Sextile',         // 60°
+  SQUARE = 'Square'            // 90°
 }
 
 /**
  * Represents the birth data required for chart calculations
  */
 export interface BirthData {
-  date: Date;
-  time: string;
+  date: string; // ISO date string format (YYYY-MM-DD)
+  time: string; // Time string format (HH:MM or HH:MM:SS)
   latitude: number;
   longitude: number;
   timezone: string;
@@ -122,6 +124,7 @@ export interface PlanetPosition {
   nakshatra: Nakshatra;
   nakshatraPada: number;
   isRetrograde: boolean;
+  longitude?: number; // Absolute longitude in degrees (0-360)
 }
 
 /**
@@ -132,6 +135,7 @@ export interface HouseInfo {
   sign: ZodiacSign;
   degree: number;
   planets: CelestialBody[];
+  longitude?: number; // Absolute longitude of house cusp in degrees (0-360)
 }
 
 /**
@@ -151,11 +155,13 @@ export interface PlanetaryAspect {
 export interface BirthChart {
   id?: string;
   birthData: BirthData;
+  timestamp?: string; // ISO timestamp of when the chart was calculated
   ascendant: {
     sign: ZodiacSign;
     degree: number;
     nakshatra: Nakshatra;
     nakshatraPada: number;
+    longitude?: number; // Absolute longitude in degrees (0-360)
   };
   planetPositions: PlanetPosition[];
   houses: HouseInfo[];

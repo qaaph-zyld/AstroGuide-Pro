@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { BirthChart, CelestialBody, ZodiacSign, House, PlanetaryAspect } from '../astrology/models/types';
 
-interface BirthChartDisplayProps {
-  chart: BirthChart;
+export interface BirthChartDisplayProps {
+  birthChart: BirthChart;
 }
 
-const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ chart }) => {
+const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ birthChart }) => {
   const [activeTab, setActiveTab] = useState('chart' as 'chart' | 'planets' | 'houses' | 'aspects');
   
   // Helper function to format degrees as degrees, minutes, seconds
@@ -28,6 +28,9 @@ const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ chart }) => {
       [CelestialBody.MARS]: '♂',
       [CelestialBody.JUPITER]: '♃',
       [CelestialBody.SATURN]: '♄',
+      [CelestialBody.URANUS]: '♅',
+      [CelestialBody.NEPTUNE]: '♆',
+      [CelestialBody.PLUTO]: '♇',
       [CelestialBody.RAHU]: '☊',
       [CelestialBody.KETU]: '☋',
     };
@@ -62,7 +65,6 @@ const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ chart }) => {
       'Opposition': '☍',
       'Trine': '△',
       'Square': '□',
-      'Sextile': '⚹',
     };
     
     return symbols[aspect.aspect] || '';
@@ -70,7 +72,7 @@ const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ chart }) => {
   
   // Render chart summary
   const renderChartSummary = () => {
-    const { birthData, ascendant } = chart;
+    const { birthData, ascendant } = birthChart;
     const date = new Date(birthData.date);
     
     return (
@@ -106,10 +108,10 @@ const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ chart }) => {
         <div className="bg-indigo-50 p-4 rounded-lg">
           <h3 className="text-lg font-semibold text-indigo-800 mb-2">Chart Highlights</h3>
           <div className="space-y-2">
-            <p><span className="font-medium">Sun Sign:</span> {chart.planetPositions.find(p => p.planet === CelestialBody.SUN)?.sign}</p>
-            <p><span className="font-medium">Moon Sign:</span> {chart.planetPositions.find(p => p.planet === CelestialBody.MOON)?.sign}</p>
+            <p><span className="font-medium">Sun Sign:</span> {birthChart.planetPositions.find(p => p.planet === CelestialBody.SUN)?.sign}</p>
+            <p><span className="font-medium">Moon Sign:</span> {birthChart.planetPositions.find(p => p.planet === CelestialBody.MOON)?.sign}</p>
             <p><span className="font-medium">Rising Sign:</span> {ascendant.sign}</p>
-            <p><span className="font-medium">Retrograde Planets:</span> {chart.planetPositions.filter(p => p.isRetrograde).map(p => p.planet).join(', ') || 'None'}</p>
+            <p><span className="font-medium">Retrograde Planets:</span> {birthChart.planetPositions.filter(p => p.isRetrograde).map(p => p.planet).join(', ') || 'None'}</p>
           </div>
         </div>
       </div>
@@ -132,7 +134,7 @@ const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ chart }) => {
             </tr>
           </thead>
           <tbody>
-            {chart.planetPositions.map((position, index) => (
+            {birthChart.planetPositions.map((position, index) => (
               <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                 <td className="py-2 px-4 border-b">
                   <div className="flex items-center space-x-2">
@@ -178,7 +180,7 @@ const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ chart }) => {
             </tr>
           </thead>
           <tbody>
-            {chart.houses.map((house, index) => (
+            {birthChart.houses.map((house, index) => (
               <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                 <td className="py-2 px-4 border-b">{house.house}</td>
                 <td className="py-2 px-4 border-b">
@@ -222,7 +224,7 @@ const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ chart }) => {
             </tr>
           </thead>
           <tbody>
-            {chart.aspects.map((aspect, index) => (
+            {birthChart.aspects.map((aspect, index) => (
               <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                 <td className="py-2 px-4 border-b">
                   <div className="flex items-center space-x-2">
@@ -254,7 +256,7 @@ const BirthChartDisplay: React.FC<BirthChartDisplayProps> = ({ chart }) => {
                 </td>
               </tr>
             ))}
-            {chart.aspects.length === 0 && (
+            {birthChart.aspects.length === 0 && (
               <tr>
                 <td colSpan={5} className="py-4 text-center text-gray-500">
                   No aspects found

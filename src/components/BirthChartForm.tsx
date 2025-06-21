@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { BirthData } from '../astrology/models/types';
-import { calculateBirthChart, saveBirthChart } from '../astrology/calculations/chartCalculator';
+import { saveBirthChart } from '../firebase/chartService';
 
 interface BirthChartFormProps {
   onSubmit?: (chartId: string) => void;
@@ -12,8 +12,8 @@ const BirthChartForm: React.FC<BirthChartFormProps> = ({ onSubmit }) => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   
-  const [formData, setFormData] = useState<BirthData>({
-    date: new Date(),
+  const [formData, setFormData] = useState({
+    date: new Date().toISOString().split('T')[0], // ISO date string format
     time: '12:00',
     latitude: 0,
     longitude: 0,
@@ -21,7 +21,7 @@ const BirthChartForm: React.FC<BirthChartFormProps> = ({ onSubmit }) => {
     location: '',
     name: '',
     gender: 'other',
-  });
+  } as BirthData);
   
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +42,7 @@ const BirthChartForm: React.FC<BirthChartFormProps> = ({ onSubmit }) => {
     const dateValue = e.target.value;
     setFormData(prev => ({
       ...prev,
-      date: new Date(dateValue),
+      date: dateValue, // Store as string directly
     }));
   };
   
@@ -108,11 +108,13 @@ const BirthChartForm: React.FC<BirthChartFormProps> = ({ onSubmit }) => {
       setIsLoading(true);
       setError(null);
       
-      // Calculate the birth chart
-      const birthChart = calculateBirthChart(formData);
-      
-      // Save the birth chart to the database
-      const chartId = await saveBirthChart(birthChart, currentUser.uid);
+      // Save the birth data directly using our chart service
+      // The service will calculate the chart internally
+      const chartId = await saveBirthChart(
+        formData, 
+        currentUser.uid,
+        formData.name || `${formData.location} Chart`
+      );
       
       // Call the onSubmit callback if provided
       if (onSubmit) {
@@ -192,7 +194,7 @@ const BirthChartForm: React.FC<BirthChartFormProps> = ({ onSubmit }) => {
                 type="date"
                 id="date"
                 name="date"
-                value={formData.date.toISOString().split('T')[0]}
+                value={formData.date}
                 onChange={handleDateChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 required

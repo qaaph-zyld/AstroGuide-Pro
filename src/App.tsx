@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { UserProvider } from './contexts/UserContext';
+import { ChartProvider } from './contexts/ChartContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 
 // Import pages
 import LandingPage from './pages/LandingPage';
@@ -16,6 +19,7 @@ import TermsOfService from './pages/TermsOfService';
 import NotFound from './pages/NotFound';
 import TestPage from './pages/TestPage';
 import BirthChartPage from './pages/BirthChartPage';
+import ChartView from './pages/ChartView';
 
 // Import test navigation
 import TestNavigation from './components/TestNavigation';
@@ -54,10 +58,13 @@ const App: React.FC = () => {
 
   return (
     <AuthProvider>
-      <Router>
-        <div className="app-container">
-          {showTestNav && <TestNavigation />}
-          <Routes>
+      <UserProvider>
+        <NotificationProvider>
+          <ChartProvider>
+            <Router>
+              <div className="app-container">
+                {showTestNav && <TestNavigation />}
+                <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -70,11 +77,14 @@ const App: React.FC = () => {
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/create-chart" element={<BirthChartPage />} />
-          <Route path="/chart/:chartId" element={<BirthChartPage />} />
+          <Route path="/chart/:chartId" element={<ChartView />} />
           <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </Router>
+                </Routes>
+              </div>
+            </Router>
+          </ChartProvider>
+        </NotificationProvider>
+      </UserProvider>
     </AuthProvider>
   );
 };

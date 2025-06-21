@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Calendar, Star, Clock, BarChart2, Users, ChevronRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Calendar, Star, Clock, BarChart2, Users, ChevronRight, PieChart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useUser } from '../contexts/UserContext';
 import { useChart } from '../contexts/ChartContext';
+import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
   const { userProfile } = useUser();
   const { chart, savedCharts, loadChart } = useChart();
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const [analytics, setAnalytics] = useState({
     chartsGenerated: 0,
     sessionsToday: 1,
@@ -178,7 +181,7 @@ const Dashboard: React.FC = () => {
                   {t('chart.noCharts')}
                 </p>
                 <Link
-                  to="/birth-data"
+                  to="/create-chart"
                   className="mt-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-mystical-600 hover:bg-mystical-700"
                 >
                   {t('chart.createFirst')}
@@ -199,30 +202,65 @@ const Dashboard: React.FC = () => {
             </h2>
           </div>
           
-          <div className="p-6 space-y-4">
+          <div className="space-y-2">
             <Link
-              to="/birth-data"
-              className="block w-full text-left px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors"
+              to="/create-chart"
+              className="flex items-center p-3 text-base font-medium text-gray-900 dark:text-white rounded-md hover:bg-gray-50 dark:hover:bg-gray-750 group transition-colors"
             >
-              <div className="flex items-center">
-                <Calendar className="h-5 w-5 text-mystical-600 dark:text-mystical-400" />
-                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-white">
-                  {t('birthData.title')}
-                </span>
-              </div>
+              <Calendar className="h-5 w-5 text-mystical-500 dark:text-mystical-400 mr-3" />
+              {t('chart.newChart')}
             </Link>
             
             <Link
-              to="/chart-analysis"
-              className="block w-full text-left px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors"
+              to="/birth-data"
+              className="flex items-center p-3 text-base font-medium text-gray-900 dark:text-white rounded-md hover:bg-gray-50 dark:hover:bg-gray-750 group transition-colors"
             >
-              <div className="flex items-center">
-                <BarChart2 className="h-5 w-5 text-cosmic-600 dark:text-cosmic-400" />
-                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-white">
-                  {t('analysis.title')}
-                </span>
-              </div>
+              <Calendar className="h-5 w-5 text-mystical-600 dark:text-mystical-400 mr-3" />
+              <span className="ml-3 text-sm font-medium text-gray-900 dark:text-white">
+                {t('birthData.title')}
+              </span>
             </Link>
+            
+            <Link
+              to="/compatibility"
+              className="flex items-center p-3 text-base font-medium text-gray-900 dark:text-white rounded-md hover:bg-gray-50 dark:hover:bg-gray-750 group transition-colors"
+            >
+              <Users className="h-5 w-5 text-cosmic-500 dark:text-cosmic-400 mr-3" />
+              {t('chart.compatibility')}
+            </Link>
+            
+            {/* Birth Chart View */}
+            <div className="mt-2 border-t border-gray-200 dark:border-gray-700 pt-2">
+              <h3 className="px-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                {t('chart.birthCharts')}
+              </h3>
+              
+              {savedCharts && savedCharts.length > 0 ? (
+                savedCharts.slice(0, 3).map((savedChart) => (
+                  <button
+                    key={savedChart.id}
+                    onClick={() => navigate(`/chart/${savedChart.id}`)}
+                    className="w-full flex items-center p-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors"
+                  >
+                    <PieChart className="h-4 w-4 text-mystical-500 dark:text-mystical-400 mr-3" />
+                    <div className="truncate">
+                      {savedChart.name || `Chart - ${savedChart.birthData.place}`}
+                    </div>
+                  </button>
+                ))
+              ) : (
+                <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                  {t('chart.noSavedCharts')}
+                </div>
+              )}
+              
+              <Link
+                to="/create-chart"
+                className="flex items-center p-3 text-sm font-medium text-mystical-600 dark:text-mystical-400 hover:text-mystical-700 dark:hover:text-mystical-300"
+              >
+                <span className="mr-1">+</span> {t('chart.createNew')}
+              </Link>
+            </div>
             
             <Link
               to="/premium"

@@ -16,6 +16,29 @@ export const normalizeDegree = (degree: number): number => {
 };
 
 /**
+ * Calculates the Ayanamsa (precession correction) for converting tropical to sidereal zodiac
+ * Using Lahiri Ayanamsa which is the standard in Vedic astrology
+ * @param julianDay - The Julian Day for which to calculate the Ayanamsa
+ * @returns The Ayanamsa value in degrees
+ */
+export const calculateAyanamsa = (julianDay: number): number => {
+  // Simplified Lahiri Ayanamsa calculation
+  // Base value for J2000 (January 1, 2000, 12:00 UTC) which is JD 2451545.0
+  const baseAyanamsa = 23.85; // Lahiri Ayanamsa on J2000
+  
+  // Annual precession rate (approximately 50.3 seconds of arc per year)
+  const annualPrecession = 50.3 / 3600; // Convert seconds to degrees
+  
+  // Calculate years from J2000
+  const yearsFromJ2000 = (julianDay - 2451545.0) / 365.25;
+  
+  // Calculate current Ayanamsa
+  const ayanamsa = baseAyanamsa + (yearsFromJ2000 * annualPrecession);
+  
+  return ayanamsa;
+};
+
+/**
  * Converts decimal degrees to degrees, minutes, and seconds format
  * @param degree - The decimal degree value
  * @returns An object containing degrees, minutes, and seconds
@@ -104,34 +127,44 @@ export const aspectStrength = (
 };
 
 /**
- * Converts a longitude value to a zodiac sign and degree
- * @param longitude - The longitude in decimal degrees
- * @returns An object containing the zodiac sign index (0-11) and degree within the sign
+ * Converts a tropical longitude value to a sidereal zodiac sign and degree
+ * @param longitude - The tropical longitude in decimal degrees
+ * @param julianDay - The Julian Day for Ayanamsa calculation
+ * @returns An object containing the sidereal zodiac sign index (0-11) and degree within the sign
  */
 export const longitudeToZodiacPosition = (
-  longitude: number
+  longitude: number,
+  julianDay: number
 ): { signIndex: number; degree: number } => {
-  const normalizedLongitude = normalizeDegree(longitude);
-  const signIndex = Math.floor(normalizedLongitude / 30);
-  const degree = normalizedLongitude % 30;
+  // Apply Ayanamsa correction to convert from tropical to sidereal
+  const ayanamsa = calculateAyanamsa(julianDay);
+  const siderealLongitude = normalizeDegree(longitude - ayanamsa);
+  
+  const signIndex = Math.floor(siderealLongitude / 30);
+  const degree = siderealLongitude % 30;
   
   return { signIndex, degree };
 };
 
 /**
- * Converts a longitude value to a nakshatra and pada
- * @param longitude - The longitude in decimal degrees
+ * Converts a tropical longitude value to a sidereal nakshatra and pada
+ * @param longitude - The tropical longitude in decimal degrees
+ * @param julianDay - The Julian Day for Ayanamsa calculation
  * @returns An object containing the nakshatra index (0-26) and pada (1-4)
  */
 export const longitudeToNakshatra = (
-  longitude: number
+  longitude: number,
+  julianDay: number
 ): { nakshatraIndex: number; pada: number } => {
-  const normalizedLongitude = normalizeDegree(longitude);
+  // Apply Ayanamsa correction to convert from tropical to sidereal
+  const ayanamsa = calculateAyanamsa(julianDay);
+  const siderealLongitude = normalizeDegree(longitude - ayanamsa);
+  
   const nakshatraLength = 360 / 27; // Each nakshatra is 13°20'
   const padaLength = nakshatraLength / 4; // Each pada is 3°20'
   
-  const nakshatraIndex = Math.floor(normalizedLongitude / nakshatraLength);
-  const degreeInNakshatra = normalizedLongitude % nakshatraLength;
+  const nakshatraIndex = Math.floor(siderealLongitude / nakshatraLength);
+  const degreeInNakshatra = siderealLongitude % nakshatraLength;
   const pada = Math.floor(degreeInNakshatra / padaLength) + 1;
   
   return { nakshatraIndex, pada };
