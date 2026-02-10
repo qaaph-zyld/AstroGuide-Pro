@@ -114,6 +114,10 @@ export default function MuhurtaPage() {
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-amber-100 mb-2">📅 Muhurta Finder</h1>
           <p className="text-slate-400">Find the most auspicious times for your important life events.</p>
+          <div className="mt-4 inline-flex items-center gap-2 bg-yellow-500/10 text-yellow-300 px-5 py-2.5 rounded-xl text-sm font-medium border border-yellow-500/20">
+            <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>
+            <span><strong>Demo Mode:</strong> Panchang elements (Tithi, Nakshatra, Yoga, Karana) are approximated, not calculated from real lunar/solar positions. Precision engine under development.</span>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-slate-900/60 rounded-2xl p-8 border border-slate-800 mb-12">

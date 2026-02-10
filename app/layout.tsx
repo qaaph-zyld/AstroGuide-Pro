@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "AstroGuide Pro — Vedic Astrology SaaS",
-  description: "Professional Vedic Astrology tools: Birth Chart Calculator, Muhurta Finder, Jyotish AI Assistant. Accurate Swiss Ephemeris calculations. Free tier available.",
+  description: "Vedic Astrology tools: Birth Chart Calculator, Muhurta Finder, Jyotish AI Assistant. Interactive demo with Swiss Ephemeris precision coming soon. Free tier available.",
 };
 
 export default function RootLayout({

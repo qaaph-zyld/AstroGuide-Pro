@@ -9,15 +9,15 @@ export default function Home() {
         <div className="relative max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-amber-500/10 text-amber-400 px-4 py-1.5 rounded-full text-sm font-medium mb-8 border border-amber-500/20">
             <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
-            Swiss Ephemeris Precision
+            Interactive Demo — Real Engine Coming Soon
           </div>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
             Vedic Astrology<br />
             <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500 bg-clip-text text-transparent">Powered by AI</span>
           </h1>
           <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-            Professional birth charts, muhurta calculations, and AI-powered Jyotish insights.
-            One platform. All your Vedic astrology needs.
+            Explore birth charts, muhurta calculations, and AI-powered Jyotish insights.
+            One platform for Vedic astrology — currently in demo with full precision coming soon.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/birth-chart" className="bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 px-8 py-4 rounded-full text-lg font-semibold hover:from-amber-400 hover:to-orange-500 transition shadow-lg shadow-amber-600/25">
@@ -60,7 +60,7 @@ export default function Home() {
               <div className="text-4xl mb-4">🪐</div>
               <h3 className="text-xl font-semibold text-amber-200 mb-2 group-hover:text-amber-300 transition">Birth Chart Calculator</h3>
               <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                Generate accurate South Indian style Kundli charts using Swiss Ephemeris. Planet positions, houses, aspects, and Nakshatra placements.
+                Generate South Indian style Kundli charts. Planet positions, houses, and Nakshatra placements. Demo uses approximations — Swiss Ephemeris integration planned.
               </p>
               <ul className="space-y-2 text-sm text-slate-500">
                 <li className="flex items-center gap-2"><span className="text-amber-500">✓</span> Rashi & Navamsha charts</li>
@@ -107,12 +107,12 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-amber-100">How It Works</h2>
-            <p className="text-lg text-slate-400">From birth data to deep Jyotish insights in minutes.</p>
+            <p className="text-lg text-slate-400">From birth data to Jyotish insights — demo mode with full precision coming soon.</p>
           </div>
           <div className="space-y-10">
             {[
               { step: "01", title: "Enter Birth Data", desc: "Input date, time, and place of birth. Our geocoding engine resolves coordinates and timezone automatically.", icon: "📝" },
-              { step: "02", title: "Get Your Kundli", desc: "Swiss Ephemeris calculates precise planetary positions. View Rashi chart, Navamsha, planetary table, and Nakshatra details.", icon: "🪐" },
+              { step: "02", title: "Get Your Kundli", desc: "View Rashi chart, planetary table, and Nakshatra details. Demo uses approximate positions — Swiss Ephemeris precision coming soon.", icon: "🪐" },
               { step: "03", title: "Unlock AI Insights", desc: "Upgrade to Pro and let our Jyotish AI analyze your chart. Get personalized readings, yoga identification, and dasha predictions.", icon: "✨" },
             ].map((item) => (
               <div key={item.step} className="flex gap-6 items-start">
@@ -198,9 +198,9 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-amber-100 mb-10">Built on Classical Foundations</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: "📖", title: "BPHS-Grounded", desc: "Calculations based on Brihat Parashara Hora Shastra, the foundational text of Vedic astrology." },
-              { icon: "🔬", title: "Swiss Ephemeris", desc: "Arc-second precision planetary calculations using the gold standard in astronomical computation." },
-              { icon: "🔒", title: "100% Private", desc: "Your birth data is never stored on our servers. All free-tier calculations run in your browser." },
+              { icon: "📖", title: "BPHS-Grounded", desc: "Architecture based on Brihat Parashara Hora Shastra. Full classical calculations in active development." },
+              { icon: "🔬", title: "Swiss Ephemeris (Planned)", desc: "Arc-second precision via Swiss Ephemeris backend is under development. Current demo uses approximations." },
+              { icon: "🔒", title: "Browser-Based", desc: "All demo calculations run in your browser. No data is stored or sent to any server." },
             ].map((t) => (
               <div key={t.title} className="text-center">
                 <div className="text-3xl mb-3">{t.icon}</div>
@@ -218,7 +218,9 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-amber-100">Start Your Jyotish Journey</h2>
           <p className="text-lg text-slate-400 mb-10">Get a free birth chart or contact us for practitioner accounts.</p>
 
-          <form className="text-left space-y-5" action="https://formspree.io/f/placeholder" method="POST">
+          <form className="text-left space-y-5" name="astroguide-contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="astroguide-contact" />
+            <p className="hidden"><label>Don&apos;t fill this out: <input name="bot-field" /></label></p>
             <div className="grid md:grid-cols-2 gap-5">
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1.5">Name</label>
